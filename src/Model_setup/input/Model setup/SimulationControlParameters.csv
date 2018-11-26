@@ -1,5 +1,5 @@
 Parameter,Value
-RunDiscription,TestSpinUp
+RunDiscription,TestRun
 RootDataDirectory,/home/shoeks/MadingleyData-master/
 RunParallel,1
 ThreadNumber,4
@@ -7,10 +7,10 @@ TimeStepUnits,month
 LengthOfSimulationInYears,1
 RunUntilStable,1
 SpatialSelection,global
-MinimumLongitude,-160
-MaximumLongitude,160
-MinimumLatitude,-55
-MaximumLatitude,85
+MinimumLongitude,-100
+MaximumLongitude,0
+MinimumLatitude,-30
+MaximumLatitude,30
 GridCellSize,1
 ExtinctionThreshold,1
 MaximumNumberOfCohorts,60
@@ -32,4 +32,4 @@ WriteCohortConsumption,1
 WriteConsumptionSummary,1
 WriteStateRealTime,1
 WriteStateOverwrite,0
-WriteStateInterval,60m
+WriteStateInterval,30m

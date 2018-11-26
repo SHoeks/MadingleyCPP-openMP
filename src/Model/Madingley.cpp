@@ -715,43 +715,6 @@ std::vector<double> Madingley::Output( unsigned step, std::vector<double> Output
                 double herbivoreEctothermBiomassThisCell = 0;
                 double herbivoreEctothermAbundanceThisCell = 0;
 
-                //##### end new code
-
-
-                //######  additional megafauna specific cohorts statistics (turn on/off in OutputControlParameters.csv)
-
-                // Mega carnivores endotherm
-                double MCarnivoreEndothermBMThisCell = 0;
-                double MCarnivoreEndothermAThisCell = 0;
-                // Mega carnivores ectotherm
-                double MCarnivoreEctothermBMThisCell = 0;
-                double MCarnivoreEctothermAThisCell = 0;
-
-                // Mega Herbivores endotherm
-                double MHerbivoreEndothermBMThisCell = 0;
-                double MHerbivoreEndothermAThisCell = 0;
-                // Mega Herbivores ectotherm
-                double MHerbivoreEctothermBMThisCell = 0;
-                double MHerbivoreEctothermAThisCell = 0;
-                
-                // Mega Omnivores endotherm
-                double MOmnivoreEndothermBMThisCell = 0;
-                double MOmnivoreEndothermAThisCell = 0;
-                // Mega Omnivores ectotherm
-                double MOmnivoreEctothermBMThisCell = 0;
-                double MOmnivoreEctothermAThisCell = 0;
-
-                ////////////////////////////////////////
-                // Store largest Carnivores
-                double MaxCarnivores = 0;
-                // Store largest Omnivores
-                double MaxOmnivores = 0;
-                // Store largest Herbivores
-                double MaxHerbivores = 0;
-                /////////////////////////////////////
-
-                //######  end additional megafauna specific cohorts statistics
-
                 organicMatterPool += organicMatterThisCell;
                 respiratoryPool += respirationThisCell;
 
@@ -836,69 +799,7 @@ std::vector<double> Madingley::Output( unsigned step, std::vector<double> Output
                     //###### end new code
 
 
-                    //######  additional megafauna specific cohorts statistics (turn on/off in OutputControlParameters.csv)
 
-                    // Mega carnivores endotherm
-                    if( mCohortNutritionSource[ c->mFunctionalGroupIndex ] == "carnivore" && 
-                        mCohortThermoregulation[ c->mFunctionalGroupIndex ] == "endotherm" && 
-                        c->mIndividualBodyMass > 21000 ) {
-                        MCarnivoreEndothermBMThisCell += ( c->mIndividualBodyMass + c->mIndividualReproductivePotentialMass ) * c->mCohortAbundance / 1000.;
-                        MCarnivoreEndothermAThisCell  += c->mCohortAbundance;
-                    }
-                    // Mega carnivores ectotherm
-                    if( mCohortNutritionSource[ c->mFunctionalGroupIndex ] == "carnivore" && 
-                        mCohortThermoregulation[ c->mFunctionalGroupIndex ] == "ectotherm" && 
-                        c->mIndividualBodyMass > 21000) {
-                        MCarnivoreEctothermBMThisCell += ( c->mIndividualBodyMass + c->mIndividualReproductivePotentialMass ) * c->mCohortAbundance / 1000.;
-                        MCarnivoreEctothermAThisCell  += c->mCohortAbundance;
-                    }
-
-                    // Mega Herbivores endotherm
-                    if( mCohortNutritionSource[ c->mFunctionalGroupIndex ] == "herbivore" && 
-                        mCohortThermoregulation[ c->mFunctionalGroupIndex ] == "endotherm" && 
-                        c->mIndividualBodyMass > 35000 ) {
-                        MHerbivoreEndothermBMThisCell += ( c->mIndividualBodyMass + c->mIndividualReproductivePotentialMass ) * c->mCohortAbundance / 1000.;
-                        MHerbivoreEndothermAThisCell  += c->mCohortAbundance;
-                    }
-                    // Mega Herbivores ectotherm
-                    if( mCohortNutritionSource[ c->mFunctionalGroupIndex ] == "herbivore" && 
-                        mCohortThermoregulation[ c->mFunctionalGroupIndex ] == "ectotherm" && 
-                        c->mIndividualBodyMass > 35000 ) {
-                        MHerbivoreEctothermBMThisCell += ( c->mIndividualBodyMass + c->mIndividualReproductivePotentialMass ) * c->mCohortAbundance / 1000.;
-                        MHerbivoreEctothermAThisCell  += c->mCohortAbundance;
-                    }
-                    
-                    // Mega Omnivores endotherm
-                    if( mCohortNutritionSource[ c->mFunctionalGroupIndex ] == "omnivore" && 
-                        mCohortThermoregulation[ c->mFunctionalGroupIndex ] == "endotherm" && 
-                        c->mIndividualBodyMass > 35000 ) {
-                        MOmnivoreEndothermBMThisCell += ( c->mIndividualBodyMass + c->mIndividualReproductivePotentialMass ) * c->mCohortAbundance / 1000.;
-                        MOmnivoreEndothermAThisCell  += c->mCohortAbundance;
-                    }
-                    // Mega Omnivores ectotherm
-                    if( mCohortNutritionSource[ c->mFunctionalGroupIndex ] == "omnivore" && 
-                        mCohortThermoregulation[ c->mFunctionalGroupIndex ] == "ectotherm" && 
-                        c->mIndividualBodyMass > 35000 ) {
-                        MOmnivoreEctothermBMThisCell += ( c->mIndividualBodyMass + c->mIndividualReproductivePotentialMass ) * c->mCohortAbundance / 1000.;
-                        MOmnivoreEctothermAThisCell  += c->mCohortAbundance;
-                    }
-                    
-                    ////////////////////////////////////////
-                    // Store largest Carnivores
-                    if( mCohortNutritionSource[ c->mFunctionalGroupIndex ] == "carnivore" ) {
-                        if( c->mAdultMass > MaxCarnivores ) MaxCarnivores = c->mAdultMass;
-                    }
-                    // Store largest Omnivores
-                    if( mCohortNutritionSource[ c->mFunctionalGroupIndex ] == "omnivore" ) {
-                        if( c->mAdultMass > MaxOmnivores ) MaxOmnivores = c->mAdultMass;
-                    }
-                    // Store largest Herbivores
-                    if( mCohortNutritionSource[ c->mFunctionalGroupIndex ] == "herbivore" ) {
-                        if( c->mAdultMass > MaxHerbivores ) MaxHerbivores = c->mAdultMass;
-                    }
-                    /////////////////////////////////////
-
-                    //######  end additional megafauna specific cohorts statistics
                 } );
                 
         gridCell.ApplyFunctionToAllStocks( [&]( Stock & s ) {
@@ -968,43 +869,10 @@ std::vector<double> Madingley::Output( unsigned step, std::vector<double> Output
                 DataRecorder::Get( )->SetDataOn( "GridCellNPP", gridCell.GetIndex( ), Environment::Get( "NPP", gridCell.GetIndex( ) ) ); // gridcell NPP
                 //###### end new code
 
-                //######  additional megafauna specific cohorts statistics (turn on/off in OutputControlParameters.csv)
-
-                // Mega carnivores endotherm
-                DataRecorder::Get( )->SetDataOn( "MegaCarnivoreEndothermBiomassDensity", gridCell.GetIndex( ), MCarnivoreEndothermBMThisCell / gridCell.GetIndex( ) ); 
-                DataRecorder::Get( )->SetDataOn( "MegaCarnivoreEndothermAbundance", gridCell.GetIndex( ), MCarnivoreEndothermAThisCell  / gridCell.GetIndex( ) ); 
-                // Mega carnivores ectotherm
-                DataRecorder::Get( )->SetDataOn( "MegaCarnivoreEctothermBiomassDensity", gridCell.GetIndex( ), MCarnivoreEctothermBMThisCell / gridCell.GetIndex( ) ); 
-                DataRecorder::Get( )->SetDataOn( "MegaCarnivoreEctothermAbundance", gridCell.GetIndex( ), MCarnivoreEctothermAThisCell  / gridCell.GetIndex( ) ); 
-
-                // Mega Herbivores endotherm
-                DataRecorder::Get( )->SetDataOn( "MegaHerbivoreEndothermBiomassDensity", gridCell.GetIndex( ), MHerbivoreEndothermBMThisCell / gridCell.GetIndex( ) ); 
-                DataRecorder::Get( )->SetDataOn( "MegaHerbivoreEndothermAbundance", gridCell.GetIndex( ), MHerbivoreEndothermAThisCell  / gridCell.GetIndex( ) ); 
-                // Mega Herbivores ectotherm
-                DataRecorder::Get( )->SetDataOn( "MegaHerbivoreEctothermBiomassDensity", gridCell.GetIndex( ), MHerbivoreEctothermBMThisCell / gridCell.GetIndex( ) ); 
-                DataRecorder::Get( )->SetDataOn( "MegaHerbivoreEctothermAbundance", gridCell.GetIndex( ), MHerbivoreEctothermAThisCell  / gridCell.GetIndex( ) ); 
-                    
-                // Mega Omnivores endotherm
-                DataRecorder::Get( )->SetDataOn( "MegaOmnivoreEndothermBiomassDensity", gridCell.GetIndex( ), MOmnivoreEndothermBMThisCell / gridCell.GetIndex( ) ); 
-                DataRecorder::Get( )->SetDataOn( "MegaOmnivoreEndothermAbundance", gridCell.GetIndex( ), MOmnivoreEndothermAThisCell  / gridCell.GetIndex( ) );   
-                // Mega Omnivores ectotherm
-                DataRecorder::Get( )->SetDataOn( "MegaOmnivoreEctothermBiomassDensity", gridCell.GetIndex( ), MOmnivoreEctothermBMThisCell / gridCell.GetIndex( ) ); 
-                DataRecorder::Get( )->SetDataOn( "MegaOmnivoreEctothermAbundance", gridCell.GetIndex( ), MOmnivoreEctothermAThisCell  / gridCell.GetIndex( ) ); 
-                
-                ////////////////////////////////////////
-                // Store largest Carnivores
-                DataRecorder::Get( )->SetDataOn( "MaxBodyMassCarnivores", gridCell.GetIndex( ), MaxCarnivores );
-                // Store largest Omnivores
-                DataRecorder::Get( )->SetDataOn( "MaxBodyMassOmnivores", gridCell.GetIndex( ), MaxOmnivores );
-                // Store largest Herbivores
-                DataRecorder::Get( )->SetDataOn( "MaxBodyMassHerbivores", gridCell.GetIndex( ), MaxHerbivores );
-                /////////////////////////////////////
-
                 //#####################################
                 DataRecorder::Get( )->SetDataOn( "NumberOfDispersalsThisCell", gridCell.GetIndex( ), OutputDispersalVector[cellCounter] );
                 //#####################################
 
-                //######  end additional megafauna specific cohorts statistics
 
             cellCounter++;
     } );
