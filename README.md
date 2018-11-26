@@ -1,4 +1,4 @@
-# Stock parallel version of MadingleyCPP-opemMP
+# Stock parallel version of MadingleyCPP-OpemMP
 Parallel (OpenMP) C++ version of the Madingley model, includes: 
 - Minor bug fixes
 - Functions for cohort consumption outputs
@@ -12,6 +12,7 @@ For a global simulation at 1 degree and a maximum of 1000 cohorts in a single gr
 
 # Madingley C++ Guide (Linux/Ubuntu) 
 A brief tutorial for getting the parallel C++ version of Madingley up and running on a linux machine
+
 ### 1. Prerequisites
 - compiler with OpenMP support
 - netCDF 4.6.0+
@@ -26,7 +27,7 @@ The following commands can be used to check if both libraries are installed corr
 nc-config --all
 ncxx4-config --all
 ```
-### 2. Clone the MadingleyCPP-ll repository
+### 2. Clone the MadingleyCPP-opemMP repository
 Currently the repository is set to private:
 ```bash
 git clone https://github.com/SHoeks/MadingleyCPP-opemMP 
@@ -38,25 +39,25 @@ The **src** directory contains the source code, where the various functions requ
 - Output, functions related to writing simulation outputs 
 - Tools, functions for calculating variable values and sampling values from various distributions
 
-Additionally, the **src** directory contains the folder **Model_setup**, which contains the setup .csv files (see **4. Running MadingleyCPP-ll**).  
+Additionally, the **src** directory contains the folder **Model_setup**, which contains the setup .csv files (see **4. Running MadingleyCPP-opemMP**).  
 
 ### 3. Compile MadingleyCPP-ll
 In addition to the source code, the src directory contains the **Makefile**, which expects all libraries to be installed in their default locations. If for some reason the libraries are located in another location, line 8 and 11 of the **Makefile** must include the full path of the corrosponding library. The 2 config commands shown under **Prerequisites** can be used to find the correct path of both netCDF libraries. If specified correctly the **Makefile** can be executed from the **src** directory: 
 ```bash
-cd /MadingleyCPP-ll/src/
+cd /MadingleyCPP-opemMP/src/
 make
 ```
 
-### 4. Running MadingleyCPP-ll
+### 4. Running MadingleyCPP-opemMP
 During compilation of the source code two new folders will be created: 
-- /MadingleyCPP-ll/dist/
-- /MadingleyCPP-ll/build/
+- /MadingleyCPP-opemMP/dist/
+- /MadingleyCPP-opemMP/build/
 
 Besides the Madingley executable the **dist** folder will contain the subdirectories:
-- /MadingleyCPP-ll/dist/input
-- /MadingleyCPP-ll/dist/output 
+- /MadingleyCPP-opemMP/dist/input
+- /MadingleyCPP-opemMP/dist/output 
 
-The **/MadingleyCPP-ll/dist/input** folder contains the following simulation setup files:
+The **/MadingleyCPP-opemMP/dist/input** folder contains the following simulation setup files:
 - SimulationControlParameters.csv, used to set simulation properties
 - CohortFunctionalGroupDefinitions.csv, used to set initialization properties cohorts
 - StockFunctionalGroupDefinitions.csv, used to set initialization properties stocks
@@ -67,11 +68,11 @@ The **/MadingleyCPP-ll/dist/input** folder contains the following simulation set
 In the SimulationControlParameters.csv the path the environmetal data (netCDF files) must be set (line 2). The environmental data can be downloaded from: https://link.to.netcdf/files
 
 
-The **/MadingleyCPP-ll/dist/output** will be used to write simulation results to.
+The **/MadingleyCPP-opemMP/dist/output** will be used to write simulation results to.
 
 The **dist** folder contains the executable **madingley**, which can be run using:
 ```bash
-cd /MadingleyCPP-ll/dist/
+cd /MadingleyCPP-opemMP/dist/
 ./madingley
 ```
 
@@ -134,7 +135,7 @@ sh /home/getMadingley.sh
 ```
 The compiled model can be found in the home folder.
 
-# Madingley C++ Guide (Windows 10)
+# MadingleyCPP-opemMP Guide (Windows 10)
 For Windows *'bash for Windows'* is available directly from Microsoft: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 
 The same steps as described for Linux/Ubuntu or MacOS can be applied from the Ubuntu bash shell within Windows.
