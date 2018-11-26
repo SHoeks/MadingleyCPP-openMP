@@ -29,7 +29,7 @@ ncxx4-config --all
 ### 2. Clone the MadingleyCPP-ll repository
 Currently the repository is set to private:
 ```bash
-git clone https://SHoeks@github.com/SHoeks/MadingleyCPP-ll/ 
+git clone https://github.com/SHoeks/MadingleyCPP-opemMP 
 ```
 The **src** directory contains the source code, where the various functions required to run Madingley are distributed across 5 subdirectories: 
 - Input, functions for reading model inputs
