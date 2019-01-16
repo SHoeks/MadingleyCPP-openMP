@@ -1,4 +1,4 @@
-# Stock parallel version of MadingleyCPP-OpemMP
+MadingleyCPP-OpenMP
 Parallel (OpenMP) C++ version of the Madingley model, includes: 
 - Minor bug fixes
 - Functions for cohort consumption outputs
