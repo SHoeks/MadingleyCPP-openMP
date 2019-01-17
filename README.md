@@ -27,10 +27,10 @@ The following commands can be used to check if both libraries are installed corr
 nc-config --all
 ncxx4-config --all
 ```
-### 2. Clone the MadingleyCPP-opemMP repository
+### 2. Clone the MadingleyCPP-openMP repository
 Currently the repository is set to private:
 ```bash
-git clone https://github.com/SHoeks/MadingleyCPP-opemMP 
+git clone https://github.com/SHoeks/MadingleyCPP-openMP 
 ```
 The **src** directory contains the source code, where the various functions required to run Madingley are distributed across 5 subdirectories: 
 - Input, functions for reading model inputs
@@ -39,23 +39,23 @@ The **src** directory contains the source code, where the various functions requ
 - Output, functions related to writing simulation outputs 
 - Tools, functions for calculating variable values and sampling values from various distributions
 
-Additionally, the **src** directory contains the folder **Model_setup**, which contains the setup .csv files (see **4. Running MadingleyCPP-opemMP**).  
+Additionally, the **src** directory contains the folder **Model_setup**, which contains the setup .csv files (see **4. Running MadingleyCPP-openMP**).  
 
 ### 3. Compile MadingleyCPP-ll
 In addition to the source code, the src directory contains the **Makefile**, which expects all libraries to be installed in their default locations. If for some reason the libraries are located in another location, line 8 and 11 of the **Makefile** must include the full path of the corrosponding library. The 2 config commands shown under **Prerequisites** can be used to find the correct path of both netCDF libraries. If specified correctly the **Makefile** can be executed from the **src** directory: 
 ```bash
-cd /MadingleyCPP-opemMP/src/
+cd /MadingleyCPP-openMP/src/
 make
 ```
 
-### 4. Running MadingleyCPP-opemMP
+### 4. Running MadingleyCPP-openMP
 During compilation of the source code two new folders will be created: 
-- /MadingleyCPP-opemMP/dist/
-- /MadingleyCPP-opemMP/build/
+- /MadingleyCPP-openMP/dist/
+- /MadingleyCPP-openMP/build/
 
 Besides the Madingley executable the **dist** folder will contain the subdirectories:
-- /MadingleyCPP-opemMP/dist/input
-- /MadingleyCPP-opemMP/dist/output 
+- /MadingleyCPP-openMP/dist/input
+- /MadingleyCPP-openMP/dist/output 
 
 The **/MadingleyCPP-opemMP/dist/input** folder contains the following simulation setup files:
 - SimulationControlParameters.csv, used to set simulation properties
