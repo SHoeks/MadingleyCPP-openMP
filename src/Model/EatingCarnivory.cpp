@@ -284,7 +284,7 @@ void EatingCarnivory::GetEatingPotentialTerrestrial( GridCell& gcl, Cohort* acti
                 // Check whether the prey cohort still exists in the model (i.e. body mass > 0)            
                 if( ( mBodyMassPrey > 0 ) && ( 0 < mPreyMassBinNumber ) && ( mPreyMassBinNumber < mNumberOfBins ) ) {
                     // Calculate the potential abundance from this cohort eaten by the acting cohort
-                    mPotentialAbundanceEaten[FunctionalGroup][i] = CalculateExpectedNumberKilledTerrestrial( gcl.mCohorts[FunctionalGroup][i]->mCohortAbundance, mBodyMassPrey, mPreyMassBinNumber, FunctionalGroup, mBodyMassPredator, mCarnivoreFunctionalGroups[FunctionalGroup], mOmnivoreFunctionalGroups[FunctionalGroup], mOmnivoreFunctionalGroups[actingCohort->mFunctionalGroupIndex], mPredatorLogOptimalPreyBodySizeRatio, predatorFunctionalGroup, MadingleyInitialisation& params);
+                    mPotentialAbundanceEaten[FunctionalGroup][i] = CalculateExpectedNumberKilledTerrestrial( gcl.mCohorts[FunctionalGroup][i]->mCohortAbundance, mBodyMassPrey, mPreyMassBinNumber, FunctionalGroup, mBodyMassPredator, mCarnivoreFunctionalGroups[FunctionalGroup], mOmnivoreFunctionalGroups[FunctionalGroup], mOmnivoreFunctionalGroups[actingCohort->mFunctionalGroupIndex], mPredatorLogOptimalPreyBodySizeRatio, predatorFunctionalGroup, params);
 
                     // Add the time required to handle the potential abundance eaten from this cohort to the cumulative total for all cohorts
                     mTimeUnitsToHandlePotentialFoodItems += mPotentialAbundanceEaten[ FunctionalGroup ][ i ] * CalculateHandlingTimeTerrestrial( mBodyMassPrey );
