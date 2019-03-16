@@ -106,7 +106,7 @@ void EatingCarnivory::GetEatingPotentialMarine( GridCell& gcl, Cohort* actingCoh
     mTimeUnitsToHandlePotentialFoodItems = 0.0;
 
     // Get the individual body mass of the acting (predator) cohort
-    int mBodyMassPredator = actingCohort->mIndividualBodyMass;
+    mBodyMassPredator = actingCohort->mIndividualBodyMass;
 
     // Get the abundance of the acting (predator) cohort
     mAbundancePredator = actingCohort->mCohortAbundance;
@@ -245,7 +245,7 @@ void EatingCarnivory::GetEatingPotentialTerrestrial( GridCell& gcl, Cohort* acti
     mBodyMassPredator = actingCohort->mIndividualBodyMass;
 
     // get predator functional index
-    predatorFunctionalGroup = actingCohort->mFunctionalGroupIndex;
+    int predatorFunctionalGroup = actingCohort->mFunctionalGroupIndex;
         
     // Get the abundance of the acting (predator) cohort
     mAbundancePredator = actingCohort->mCohortAbundance;
