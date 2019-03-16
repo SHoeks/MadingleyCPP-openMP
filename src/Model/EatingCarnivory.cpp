@@ -232,7 +232,7 @@ double EatingCarnivory::GetBinNumberFractional( double preyMass, double predator
 }
 
 void EatingCarnivory::GetEatingPotentialTerrestrial( GridCell& gcl, Cohort* actingCohort, MadingleyInitialisation& params, std::vector< std::vector<int> > SortedCohortIndices ) {
- mBinnedPreyDensities.resize( gcl.mCohorts.size( ) );
+    mBinnedPreyDensities.resize( gcl.mCohorts.size( ) );
     for( auto& b: mBinnedPreyDensities )b.resize( mNumberOfBins );
     for( auto& b: mBinnedPreyDensities )for( auto& n: b )n = 0;
     // Set the total eaten by the acting cohort to zero
@@ -242,10 +242,10 @@ void EatingCarnivory::GetEatingPotentialTerrestrial( GridCell& gcl, Cohort* acti
     mTimeUnitsToHandlePotentialFoodItems = 0.0;
 
     // Get the individual body mass of the acting (predator) cohort
-    mBodyMassPredator = actingCohort.mIndividualBodyMass;
+    mBodyMassPredator = actingCohort->mIndividualBodyMass;
 
     // Get the abundance of the acting (predator) cohort
-    mAbundancePredator = actingCohort.mCohortAbundance;
+    mAbundancePredator = actingCohort->mCohortAbundance;
 
     // Pre-calculate individual values for this predator
     mSpecificPredatorKillRateConstant = mKillRateConstant * pow( mBodyMassPredator, ( mKillRateConstantMassExponent ) );
@@ -258,7 +258,7 @@ void EatingCarnivory::GetEatingPotentialTerrestrial( GridCell& gcl, Cohort* acti
 
     mPredatorAbundanceMultipliedByTimeEating = mAbundancePredator * mSpecificPredatorTimeUnitsEatingPerGlobalTimeStep;
 
-    mPredatorLogOptimalPreyBodySizeRatio = actingCohort.mLogOptimalPreyBodySizeRatio;
+    mPredatorLogOptimalPreyBodySizeRatio = actingCohort->mLogOptimalPreyBodySizeRatio;
 
     // Calculate the abundance of prey in each of the prey mass bins
     PopulateBinnedPreyAbundance( gcl, actingCohort, mPredatorLogOptimalPreyBodySizeRatio );
@@ -268,12 +268,12 @@ void EatingCarnivory::GetEatingPotentialTerrestrial( GridCell& gcl, Cohort* acti
 
         // Loop over cohorts within the functional group
         for( int i = 0; i < mNumberCohortsPerFunctionalGroupNoNewCohorts[FunctionalGroup]; i++ ) {
-            if( gcl.mCohorts[FunctionalGroup][i].mID == actingCohort.mID ) {
+            if( gcl.mCohorts[FunctionalGroup][i]->mID == actingCohort->mID ) {
                 mPotentialAbundanceEaten[FunctionalGroup][i] = 0.0;
                 mTimeUnitsToHandlePotentialFoodItems -= mPotentialAbundanceEaten[ FunctionalGroup ][ i ] * CalculateHandlingTimeTerrestrial( mBodyMassPredator );
             } else {
                 // Get the body mass of individuals in this cohort
-                mBodyMassPrey = gcl.mCohorts[FunctionalGroup][i].mIndividualBodyMass;
+                mBodyMassPrey = gcl.mCohorts[FunctionalGroup][i]->mIndividualBodyMass;
 
                 // Get the bin number of this prey cohort
                 if( mBodyMassPrey > 0 )mPreyMassBinNumber = GetBinNumber( mBodyMassPrey, mBodyMassPredator, mPredatorLogOptimalPreyBodySizeRatio );
@@ -281,7 +281,7 @@ void EatingCarnivory::GetEatingPotentialTerrestrial( GridCell& gcl, Cohort* acti
                 // Check whether the prey cohort still exists in the model (i.e. body mass > 0)            
                 if( ( mBodyMassPrey > 0 ) && ( 0 < mPreyMassBinNumber ) && ( mPreyMassBinNumber < mNumberOfBins ) ) {
                     // Calculate the potential abundance from this cohort eaten by the acting cohort
-                    mPotentialAbundanceEaten[FunctionalGroup][i] = CalculateExpectedNumberKilledTerrestrial( gcl.mCohorts[FunctionalGroup][i].mCohortAbundance, mBodyMassPrey, mPreyMassBinNumber, FunctionalGroup, mBodyMassPredator, mCarnivoreFunctionalGroups[FunctionalGroup], mOmnivoreFunctionalGroups[FunctionalGroup], mOmnivoreFunctionalGroups[actingCohort.mFunctionalGroupIndex], mPredatorLogOptimalPreyBodySizeRatio );
+                    mPotentialAbundanceEaten[FunctionalGroup][i] = CalculateExpectedNumberKilledTerrestrial( gcl.mCohorts[FunctionalGroup][i]->mCohortAbundance, mBodyMassPrey, mPreyMassBinNumber, FunctionalGroup, mBodyMassPredator, mCarnivoreFunctionalGroups[FunctionalGroup], mOmnivoreFunctionalGroups[FunctionalGroup], mOmnivoreFunctionalGroups[actingCohort->mFunctionalGroupIndex], mPredatorLogOptimalPreyBodySizeRatio );
 
                     // Add the time required to handle the potential abundance eaten from this cohort to the cumulative total for all cohorts
                     mTimeUnitsToHandlePotentialFoodItems += mPotentialAbundanceEaten[ FunctionalGroup ][ i ] * CalculateHandlingTimeTerrestrial( mBodyMassPrey );
@@ -292,10 +292,16 @@ void EatingCarnivory::GetEatingPotentialTerrestrial( GridCell& gcl, Cohort* acti
             }
         }
     }
+    // No cannibalism; do this outside the loop to speed up the calculations
+    //MB Now moved back into loop
+    //TimeUnitsToHandlePotentialFoodItems -= PotentialAbundanceEaten[actingCohort->FunctionalGroupIndex][actingCohort->positionInList] *
+    //        CalculateHandlingTimeTerrestrial(BodyMassPredator);
+    //PotentialAbundanceEaten[actingCohort->FunctionalGroupIndex][actingCohort->positionInList] = 0.0;
+
 } // end function
 
 void EatingCarnivory::Run( GridCell& gcl, Cohort* actingCohort, unsigned currentTimestep, MadingleyInitialisation& params, std::vector< std::vector<int> > SortedCohortIndices ) {
-   mTemporaryValue = 0.0;
+    mTemporaryValue = 0.0;
 
     // Temporary variable to hold the total time spent eating + 1. Saves an extra calculation in CalculateAbundanceEaten
     double TotalTimeUnitsToHandlePlusOne = mTimeUnitsToHandlePotentialFoodItems + 1;
@@ -306,30 +312,30 @@ void EatingCarnivory::Run( GridCell& gcl, Cohort* actingCohort, unsigned current
         // Loop over cohorts within the functional group
         for( int i = 0; i < mNumberCohortsPerFunctionalGroupNoNewCohorts[FunctionalGroup]; i++ ) {
             // Get the individual body mass of this cohort
-            mBodyMassPrey = gcl.mCohorts[FunctionalGroup][i].mIndividualBodyMass;
+            mBodyMassPrey = gcl.mCohorts[FunctionalGroup][i]->mIndividualBodyMass;
 
             // Calculate the actual abundance of prey eaten from this cohort
-            if( gcl.mCohorts[FunctionalGroup][i].mCohortAbundance > 0 ) {
+            if( gcl.mCohorts[FunctionalGroup][i]->mCohortAbundance > 0 ) {
 
 
                 // Calculate the actual abundance of prey eaten from this cohort
                 mAbundancesEaten[FunctionalGroup][i] = CalculateAbundanceEaten( mPotentialAbundanceEaten[FunctionalGroup][i], mPredatorAbundanceMultipliedByTimeEating,
-                        TotalTimeUnitsToHandlePlusOne, gcl.mCohorts[FunctionalGroup][i].mCohortAbundance );
+                        TotalTimeUnitsToHandlePlusOne, gcl.mCohorts[FunctionalGroup][i]->mCohortAbundance );
             } else
                 mAbundancesEaten[FunctionalGroup][i] = 0;
 
             // Remove number of prey eaten from the prey cohort
-            gcl.mCohorts[FunctionalGroup][i].mCohortAbundance -= mAbundancesEaten[FunctionalGroup][i];
+            gcl.mCohorts[FunctionalGroup][i]->mCohortAbundance -= mAbundancesEaten[FunctionalGroup][i];
 
 
             // Check that the abundance eaten from this cohort is not negative
             if( mAbundancesEaten[FunctionalGroup][i] < 0. ) {
-                std::cout << "Predation negative for this prey cohort" << actingCohort.mFunctionalGroupIndex << " " << actingCohort.mID << mAbundancesEaten[FunctionalGroup][i] << std::endl;
+                std::cout << "Predation negative for this prey cohort" << actingCohort->mFunctionalGroupIndex << " " << actingCohort->mID << mAbundancesEaten[FunctionalGroup][i] << std::endl;
             }
             // Create a temporary value to speed up the predation function
             // This is equivalent to the body mass of the prey cohort including reproductive potential mass, times the abundance eaten of the prey cohort,
             // divided by the abundance of the predator
-            mTemporaryValue += ( mBodyMassPrey + gcl.mCohorts[FunctionalGroup][i].mIndividualReproductivePotentialMass ) * mAbundancesEaten[FunctionalGroup][i] / mAbundancePredator;
+            mTemporaryValue += ( mBodyMassPrey + gcl.mCohorts[FunctionalGroup][i]->mIndividualReproductivePotentialMass ) * mAbundancesEaten[FunctionalGroup][i] / mAbundancePredator;
         }
     }
 
