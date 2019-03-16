@@ -231,7 +231,7 @@ double EatingCarnivory::GetBinNumberFractional( double preyMass, double predator
     return (log( preyMass / predatorMass ) - predatorOptimalPreyBodySizeRatio ) / ( 0.5 * mFeedingPreferenceStandardDeviation );
 }
 
-void EatingCarnivory::GetEatingPotentialTerrestrial( GridCell& gcl, Cohort* actingCohort, MadingleyInitialisation& params,
+void EatingCarnivory::GetEatingPotentialTerrestrial( GridCell& gcl, Cohort* actingCohort, MadingleyInitialisation& params, std::vector< std::vector<int> > SortedCohortIndices ) {
  mBinnedPreyDensities.resize( gcl.mCohorts.size( ) );
     for( auto& b: mBinnedPreyDensities )b.resize( mNumberOfBins );
     for( auto& b: mBinnedPreyDensities )for( auto& n: b )n = 0;
