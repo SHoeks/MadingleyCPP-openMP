@@ -372,8 +372,6 @@ double EatingCarnivory::CalculateExpectedNumberKilledMarine( double preyAbundanc
 
 double EatingCarnivory::CalculateIndividualKillingRatePerHectare( double preyIndividualMass, int preyMassBinNumber,
     int preyFunctionalGroup, double predatorIndividualMass, double logOptimalPreyPredatorMassRatio, int predatorFunctionalGroup, MadingleyInitialisation& params )  {
-    //int PreyBinNumber;
-
     // Calculate the relative feeding preference from a log-normal distribution with mean equal to the optimal 
     // prey to predator ratio and standard deviation as specified
     mRelativeFeedingPreference = exp( -( pow( ( ( log( preyIndividualMass / predatorIndividualMass ) - logOptimalPreyPredatorMassRatio ) / mFeedingPreferenceStandardDeviation ), 2 ) ) );
