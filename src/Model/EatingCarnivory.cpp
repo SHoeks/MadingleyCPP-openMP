@@ -106,7 +106,7 @@ void EatingCarnivory::GetEatingPotentialMarine( GridCell& gcl, Cohort* actingCoh
     mTimeUnitsToHandlePotentialFoodItems = 0.0;
 
     // Get the individual body mass of the acting (predator) cohort
-    mBodyMassPredator = actingCohort->mIndividualBodyMass;
+    int mBodyMassPredator = actingCohort->mIndividualBodyMass;
 
     // Get the abundance of the acting (predator) cohort
     mAbundancePredator = actingCohort->mCohortAbundance;
