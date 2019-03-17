@@ -163,7 +163,7 @@ long MadingleyInitialisation::SeedGridCellCohorts( GridCell& gcl ) {
                         ) {
                         optimalPreyBodySizeRatio = std::max( 0.01, mRandomNumber.GetNormal( 0.1, 0.02 ) );
                     } else {
-                        optimalPreyBodySizeRatio = std::max( 0.01, mRandomNumber.GetNormal( 0.8, 0.02 ) );
+                        optimalPreyBodySizeRatio = std::max( 0.01, mRandomNumber.GetNormal( 0.1, 0.02 ) );
                     }
                     //# end new code
                     //std::cout << optimalPreyBodySizeRatio << std::endl;
