@@ -392,9 +392,7 @@ void Madingley::RunWithinCellCohortEcology( GridCell& gcl, ThreadVariables& part
 
         }, mCurrentTimeStep );
 
-        //for(unsigned i = 0; i < SortedCohortIndices[10].size(); i++) std::cout << SortedCohortIndices[10][i] << "  ";
-        //SortedCohortIndices.clear();
-        //std::cout << "##" << std::endl;
+
 
         for( auto c: GridCell::mNewCohorts ) {
             gcl.InsertCohort( c );
