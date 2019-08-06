@@ -339,9 +339,9 @@ void EatingCarnivory::Run( GridCell& gcl, Cohort* actingCohort, unsigned current
                 // Calculate the actual abundance of prey eaten from this cohort
                 mAbundancesEaten[FunctionalGroup][i] = CalculateAbundanceEaten( mPotentialAbundanceEaten[FunctionalGroup][i], mPredatorAbundanceMultipliedByTimeEating,
                         TotalTimeUnitsToHandlePlusOne, gcl.mCohorts[FunctionalGroup][i]->mCohortAbundance );
-            } else
+            } else {
                 mAbundancesEaten[FunctionalGroup][i] = 0;
-
+            }
    	        //std::cout << mAbundancesEaten[FunctionalGroup][i] << " ";
             // Remove number of prey eaten from the prey cohort
             gcl.mCohorts[FunctionalGroup][i]->mCohortAbundance -= mAbundancesEaten[FunctionalGroup][i];
