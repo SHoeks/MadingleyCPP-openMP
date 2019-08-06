@@ -251,7 +251,7 @@ void EatingCarnivory::GetEatingPotentialTerrestrial( GridCell& gcl, Cohort* acti
     mSpecificPredatorTimeUnitsEatingPerGlobalTimeStep = mDeltaT * mProportionTimeEating;
     mPredatorAssimilationEfficiency = mAssimilationEfficiency;
     mPredatorNonAssimilation = ( 1 - mAssimilationEfficiency );
-    std::string mNutritionGroup = params.mCohortFunctionalGroupDefinitions.GetTraitNames( "Nutrition source" , actingCohort->mFunctionalGroupIndex )
+    std::string mNutritionGroup = params.mCohortFunctionalGroupDefinitions.GetTraitNames( "Nutrition source" , actingCohort->mFunctionalGroupIndex );
 
     // When body sizes are less than one gram, we have a flat handling time relationship to stop small things having extraordinarily short handling times
     mReferenceMassRatioScalingTerrestrial = mHandlingTimeScalarTerrestrial * pow( mReferenceMass / mBodyMassPredator, mHandlingTimeExponentTerrestrial );
