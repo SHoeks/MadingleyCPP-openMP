@@ -3,6 +3,10 @@
 .AppleDouble
 .LSOverride
 
+# specific to repository
+dist
+build
+
 # Icon must end with two \r
 Icon
 
