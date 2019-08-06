@@ -1,0 +1,13 @@
+InternalHandle,FileSubPath,DefaultVariable
+Realm,realm_classification.nc4,realm
+TerrestrialHANPP,Terrestrial/hanpp_2005.nc4,hanpp
+TerrestrialAWC,Terrestrial/available_water_capacity.nc4,awc
+TerrestrialNPP,Terrestrial/terrestrial_net_primary_productivity.nc4,npp
+TerrestrialTemp,Terrestrial/near-surface_temperature.nc4,tmp
+TerrestrialDTR,Terrestrial/diurnal_temperature_range.nc4,dtr
+TerrestrialPre,Terrestrial/precipitation.nc4,pre
+TerrestrialFrost,Terrestrial/ground_frost_frequency.nc4,frs
+MarineNPP,Marine/Modelled/intpp.nc4,npp
+MarineNorthVel,Marine/Modelled/vo.nc4,vo
+MarineEastVel,Marine/Modelled/uo.nc4,uo
+MarineTemp,Marine/Modelled/thetao.nc4,temp
