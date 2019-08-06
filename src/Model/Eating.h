@@ -31,7 +31,7 @@ public:
     @param gcl The current grid cell
     @param params The current model settings
      */
-    virtual void GetEatingPotentialMarine( GridCell&, Cohort*, MadingleyInitialisation&, std::vector< std::vector<int> > ) {
+    virtual void GetEatingPotentialMarine( GridCell&, Cohort*, MadingleyInitialisation& ) {
         ;
     }
 
@@ -39,7 +39,7 @@ public:
     @param gcl The current grid cell
     @param actingCohort The position of the acting cohort in the jagged array of cohorts
     @param params The current model thingies  */
-    virtual void GetEatingPotentialTerrestrial( GridCell&, Cohort*, MadingleyInitialisation&, std::vector< std::vector<int> > ) {
+    virtual void GetEatingPotentialTerrestrial( GridCell&, Cohort*, MadingleyInitialisation& ) {
         ;
     }
 
@@ -47,7 +47,7 @@ public:
     @param gcl The current grid cell
     @param currentTimestep The current model time step
     @param params the actual model settings  */
-    virtual void Run( GridCell&, Cohort*, unsigned, MadingleyInitialisation&, std::vector< std::vector<int> > ) {
+    virtual void Run( GridCell&, Cohort*, unsigned, MadingleyInitialisation& ) {
         std::cout << "Top level IEatingImplementation RunEating process called: should be virtual so this is probably not what you want!" << std::endl;
     }
 
