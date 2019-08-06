@@ -245,94 +245,94 @@ void Environment::SetRealm( ) {
 
 void Environment::SetOrganicPool( ) {
 
-    if(Parameters::Get( )->GetApplyModelSpinup()==0){
+ //   if(Parameters::Get( )->GetApplyModelSpinup()==0){
         for( unsigned cellIndex = 0; cellIndex < Parameters::Get( )->GetNumberOfGridCells( ); cellIndex++ ) {
             ( *mLayers[ "Organic Pool" ] )[ cellIndex ] = 0;
         }
-    }
-    if(Parameters::Get( )->GetApplyModelSpinup()==1){
+//     }
+//     if(Parameters::Get( )->GetApplyModelSpinup()==1){
 
-        std::cout << "opening: "<< Parameters::Get( )->GetPoolCSVLocation( ) << std::endl;
-        std::vector< std::vector<std::string> > v(3,std::vector<std::string>(0));
-        std::ifstream file ( Parameters::Get( )->GetPoolCSVLocation( ) );
-        unsigned col = 0;
-        unsigned row = 0;
-        std::string value;
+//         std::cout << "opening: "<< Parameters::Get( )->GetPoolCSVLocation( ) << std::endl;
+//         std::vector< std::vector<std::string> > v(3,std::vector<std::string>(0));
+//         std::ifstream file ( Parameters::Get( )->GetPoolCSVLocation( ) );
+//         unsigned col = 0;
+//         unsigned row = 0;
+//         std::string value;
 
-        while ( file.good() )
-        {
-            getline ( file, value, ',' );
-            int pos;
-            if ((pos=value.find('\n')) != std::string::npos) {
-            std::string end = value; end.erase(pos);
-            std::string start = value; start.erase(0,pos+1);
-            // last value current row
-            if(end.length() != 0) { //cout << " v = " << end << " | row = " << row << " | col = " << col << endl;
-                v[col].push_back(end);
-            }
-            row++; col = 0; // update row and col index
-            // first value next row
-            if(start.length() != 0) { //cout << " v = " << start << " | row = " << row << " | col = " << col << endl;
-                v[col].push_back(start);
-            }
-            } else { //cout << " v = " << value << " | row = " << row << " | col = " << col << endl;
-            v[col].push_back(value);
-            }
-            col++;
-        }
-        std::cout << v.size() << std::endl; 
-        std::cout << v[0].size() << std::endl; 
-        for( unsigned cellIndex = 0; cellIndex < Parameters::Get( )->GetNumberOfGridCells( ); cellIndex++ ) {
-            //std::cout << v[0][cellIndex+1] << " | " << v[1][cellIndex+1] << " | " << v[2][cellIndex+1] << std::endl;  
-            ( *mLayers[ "Organic Pool" ] )[ cellIndex ] = std::stod(v[1][cellIndex+1]);
-        }
-    }
+//         while ( file.good() )
+//         {
+//             getline ( file, value, ',' );
+//             int pos;
+//             if ((pos=value.find('\n')) != std::string::npos) {
+//             std::string end = value; end.erase(pos);
+//             std::string start = value; start.erase(0,pos+1);
+//             // last value current row
+//             if(end.length() != 0) { //cout << " v = " << end << " | row = " << row << " | col = " << col << endl;
+//                 v[col].push_back(end);
+//             }
+//             row++; col = 0; // update row and col index
+//             // first value next row
+//             if(start.length() != 0) { //cout << " v = " << start << " | row = " << row << " | col = " << col << endl;
+//                 v[col].push_back(start);
+//             }
+//             } else { //cout << " v = " << value << " | row = " << row << " | col = " << col << endl;
+//             v[col].push_back(value);
+//             }
+//             col++;
+//         }
+//         std::cout << v.size() << std::endl; 
+//         std::cout << v[0].size() << std::endl; 
+//         for( unsigned cellIndex = 0; cellIndex < Parameters::Get( )->GetNumberOfGridCells( ); cellIndex++ ) {
+//             //std::cout << v[0][cellIndex+1] << " | " << v[1][cellIndex+1] << " | " << v[2][cellIndex+1] << std::endl;  
+//             ( *mLayers[ "Organic Pool" ] )[ cellIndex ] = std::stod(v[1][cellIndex+1]);
+//         }
+//     }
 
 
  
-}
+// }
 //------------------------------------------------------------------------------
 
 void Environment::SetRespiratoryCO2Pool( ) {
-    if(Parameters::Get( )->GetApplyModelSpinup()==0){
+    //if(Parameters::Get( )->GetApplyModelSpinup()==0){
         for( unsigned cellIndex = 0; cellIndex < Parameters::Get( )->GetNumberOfGridCells( ); cellIndex++ ) {
             ( *mLayers[ "Respiratory CO2 Pool" ] )[ cellIndex ] = 0;
         }
-    }
-    if(Parameters::Get( )->GetApplyModelSpinup()==1){
-        std::cout << "opening: "<< Parameters::Get( )->GetPoolCSVLocation( ) << std::endl;
-        std::vector< std::vector<std::string> > v(3,std::vector<std::string>(0));
-        std::ifstream file ( Parameters::Get( )->GetPoolCSVLocation( ) );
-        unsigned col = 0;
-        unsigned row = 0;
-        std::string value;
+    //}
+//     if(Parameters::Get( )->GetApplyModelSpinup()==1){
+//         std::cout << "opening: "<< Parameters::Get( )->GetPoolCSVLocation( ) << std::endl;
+//         std::vector< std::vector<std::string> > v(3,std::vector<std::string>(0));
+//         std::ifstream file ( Parameters::Get( )->GetPoolCSVLocation( ) );
+//         unsigned col = 0;
+//         unsigned row = 0;
+//         std::string value;
 
-        while ( file.good() )
-        {
-            getline ( file, value, ',' );
-            int pos;
-            if ((pos=value.find('\n')) != std::string::npos) {
-            std::string end = value; end.erase(pos);
-            std::string start = value; start.erase(0,pos+1);
-            // last value current row
-            if(end.length() != 0) { //cout << " v = " << end << " | row = " << row << " | col = " << col << endl;
-                v[col].push_back(end);
-            }
-            row++; col = 0; // update row and col index
-            // first value next row
-            if(start.length() != 0) { //cout << " v = " << start << " | row = " << row << " | col = " << col << endl;
-                v[col].push_back(start);
-            }
-            } else { //cout << " v = " << value << " | row = " << row << " | col = " << col << endl;
-            v[col].push_back(value);
-            }
-            col++;
-        }
-        for( unsigned cellIndex = 0; cellIndex < Parameters::Get( )->GetNumberOfGridCells( ); cellIndex++ ) {
-            ( *mLayers[ "Respiratory CO2 Pool" ] )[ cellIndex ] = std::stod(v[2][cellIndex+1]);
-        }
+//         while ( file.good() )
+//         {
+//             getline ( file, value, ',' );
+//             int pos;
+//             if ((pos=value.find('\n')) != std::string::npos) {
+//             std::string end = value; end.erase(pos);
+//             std::string start = value; start.erase(0,pos+1);
+//             // last value current row
+//             if(end.length() != 0) { //cout << " v = " << end << " | row = " << row << " | col = " << col << endl;
+//                 v[col].push_back(end);
+//             }
+//             row++; col = 0; // update row and col index
+//             // first value next row
+//             if(start.length() != 0) { //cout << " v = " << start << " | row = " << row << " | col = " << col << endl;
+//                 v[col].push_back(start);
+//             }
+//             } else { //cout << " v = " << value << " | row = " << row << " | col = " << col << endl;
+//             v[col].push_back(value);
+//             }
+//             col++;
+//         }
+//         for( unsigned cellIndex = 0; cellIndex < Parameters::Get( )->GetNumberOfGridCells( ); cellIndex++ ) {
+//             ( *mLayers[ "Respiratory CO2 Pool" ] )[ cellIndex ] = std::stod(v[2][cellIndex+1]);
+//         }
 
-    }
+//     }
 }
 //------------------------------------------------------------------------------
 
