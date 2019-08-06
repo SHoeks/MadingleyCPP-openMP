@@ -29,16 +29,16 @@ EcologyCohort::~EcologyCohort( ) {
 }
 
 void EcologyCohort::RunWithinCellEcology( GridCell& gcl, Cohort* actingCohort, unsigned currentTimestep, ThreadVariables& partial, unsigned currentMonth,
-  MadingleyInitialisation& params, std::vector< std::vector<int> > SortedCohortIndices ) {
+  MadingleyInitialisation& params ) {
     // RUN EATING
     if( actingCohort->mIndividualBodyMass > 0 ) {
-        mEatingFormulations["Basic eating"]->RunEcologicalProcess( gcl, actingCohort, currentTimestep, partial, currentMonth, params, SortedCohortIndices );
+        mEatingFormulations["Basic eating"]->RunEcologicalProcess( gcl, actingCohort, currentTimestep, partial, currentMonth, params );
         // RUN METABOLISM - THIS TIME TAKE THE METABOLIC LOSS TAKING INTO ACCOUNT WHAT HAS BEEN INGESTED THROUGH EATING
-        mMetabolismFormulations["Basic metabolism"]->RunEcologicalProcess( gcl, actingCohort, currentTimestep, partial, currentMonth, params, SortedCohortIndices );
+        mMetabolismFormulations["Basic metabolism"]->RunEcologicalProcess( gcl, actingCohort, currentTimestep, partial, currentMonth, params );
         // RUN REPRODUCTION - TAKING INTO ACCOUNT NET BIOMASS CHANGES RESULTING FROM EATING AND METABOLISING
-        mReproductionFormulations["Basic reproduction"]->RunEcologicalProcess( gcl, actingCohort, currentTimestep, partial, currentMonth, params, SortedCohortIndices );
+        mReproductionFormulations["Basic reproduction"]->RunEcologicalProcess( gcl, actingCohort, currentTimestep, partial, currentMonth, params );
         // RUN MORTALITY - TAKING INTO ACCOUNT NET BIOMASS CHANGES RESULTING FROM EATING, METABOLISM AND REPRODUCTION
-        mMortalityFormulations["Basic mortality"]->RunEcologicalProcess( gcl, actingCohort, currentTimestep, partial, currentMonth, params, SortedCohortIndices );
+        mMortalityFormulations["Basic mortality"]->RunEcologicalProcess( gcl, actingCohort, currentTimestep, partial, currentMonth, params );
     }
 }
 

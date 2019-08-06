@@ -29,7 +29,6 @@ public:
     @param partial Thread-locked variables for the parallelised version
     @param currentMonth The current model month
     @params Parameters defined here */
-    void RunEcologicalProcess( GridCell&, Cohort*, unsigned, ThreadVariables&, unsigned,
-      MadingleyInitialisation&, std::vector< std::vector<int> > );
+    void RunEcologicalProcess( GridCell&, Cohort*, unsigned, ThreadVariables&, unsigned, MadingleyInitialisation& );
 };
 #endif

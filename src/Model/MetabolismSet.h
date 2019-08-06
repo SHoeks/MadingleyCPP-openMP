@@ -31,7 +31,7 @@ private:
     @param partial Thread-locked variables
     @param currentMonth The current model month
     @param params some parameters  */
-    void RunEcologicalProcess( GridCell&, Cohort*, unsigned, ThreadVariables&, unsigned, MadingleyInitialisation&, std::vector< std::vector<int> > );
+    void RunEcologicalProcess( GridCell&, Cohort*, unsigned, ThreadVariables&, unsigned, MadingleyInitialisation& );
 
     std::map< std::string, Metabolism* > Implementations;
 };

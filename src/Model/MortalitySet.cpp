@@ -26,7 +26,7 @@ void MortalitySet::InitializeEcologicalProcess( GridCell& gcl, MadingleyInitiali
 }
 
 void MortalitySet::RunEcologicalProcess( GridCell& gcl, Cohort* actingCohort, unsigned currentTimestep, ThreadVariables& partial,
-  unsigned currentMonth, MadingleyInitialisation& params, std::vector< std::vector<int> > SortedCohortIndices ) {
+  unsigned currentMonth, MadingleyInitialisation& params ) {
     // Variables to hold the mortality rates
     double MortalityRateBackground;
     double MortalityRateSenescence;

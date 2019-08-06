@@ -15,7 +15,7 @@ public:
     @param partial Thread-locked variables
     @param currentMonth The current model month
     @param params The instance of the MadingleyModelInitialisation class for this simulation */
-    virtual void RunEcologicalProcess( GridCell&, Cohort*, unsigned, ThreadVariables&, unsigned, MadingleyInitialisation&, std::vector< std::vector<int> > ) {
+    virtual void RunEcologicalProcess( GridCell&, Cohort*, unsigned, ThreadVariables&, unsigned, MadingleyInitialisation& ) {
         std::cout << "Top level EcologicalWithinGridCell RunEcologicalProcess process called: should be virtual so this is probably not what you want!" << std::endl;
     }
 

@@ -370,17 +370,6 @@ void Madingley::RunWithinCellCohortEcology( GridCell& gcl, ThreadVariables& part
         mEcologyCohort.InitialiseEating( gcl, mParams );
         Activity CohortActivity;
 
-        //clock_t begin = clock();
-        std::vector< std::vector<int> > SortedCohortIndices;
-        SortedCohortIndices = DetSortIndicesCohorts( gcl, false );
-        //clock_t end = clock();
-        //std::cout << double(end - begin) / CLOCKS_PER_SEC << std::endl;
-        //std::cout << "##############" << std::endl;
-
-        // std::vector< std::vector<int> > SortedCohortIndices;
-        // SortedCohortIndices = mGridCell.GetSortedCohortIndices();
-        // for(unsigned i = 0; i < SortedCohortIndices.size(); i++) std::cout << SortedCohortIndices[i].size() << std::endl;
-
         // Loop over randomly ordered gridCellCohorts to implement biological functions
         gcl.ApplyFunctionToAllCohortsWithStaticRandomness( [&]( Cohort* c ) {
             // Perform all biological functions except dispersal (which is cross grid cell)
@@ -390,7 +379,7 @@ void Madingley::RunWithinCellCohortEcology( GridCell& gcl, ThreadVariables& part
                 CohortActivity.AssignProportionTimeActive( gcl, c, mCurrentTimeStep, mCurrentMonth, mParams );
 
                 // Run ecology
-                mEcologyCohort.RunWithinCellEcology( gcl, c, mCurrentTimeStep, partial, mCurrentMonth, mParams, SortedCohortIndices);
+                mEcologyCohort.RunWithinCellEcology( gcl, c, mCurrentTimeStep, partial, mCurrentMonth, mParams );
                 // Update the properties of the acting cohort
                 mEcologyCohort.UpdateEcology( gcl, c, mCurrentTimeStep );
                 Cohort::ResetMassFluxes( );

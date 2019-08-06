@@ -20,7 +20,7 @@ void MetabolismSet::InitializeEcologicalProcess( GridCell& gcl, MadingleyInitial
 }
 
 void MetabolismSet::RunEcologicalProcess( GridCell& gcl, Cohort* actingCohort, unsigned currentTimestep, ThreadVariables& partial,
-  unsigned currentMonth, MadingleyInitialisation& params, std::vector< std::vector<int> > SortedCohortIndices ) {
+  unsigned currentMonth, MadingleyInitialisation& params ) {
     if( params.mCohortFunctionalGroupDefinitions.GetTraitNames( "Heterotroph/Autotroph", actingCohort->mFunctionalGroupIndex ) == "heterotroph" ) {
         if( params.mCohortFunctionalGroupDefinitions.GetTraitNames( "Endo/Ectotherm", actingCohort->mFunctionalGroupIndex ) == "endotherm" ) {
             Implementations[ "basic endotherm" ]->Run( actingCohort, currentTimestep, currentMonth );

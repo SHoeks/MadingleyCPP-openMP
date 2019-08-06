@@ -25,7 +25,7 @@ public:
     @param gcl The current grid cell
     @param actingCohort The acting cohort
     @param The definitions for all the model parameters */
-    void GetEatingPotentialMarine( GridCell&, Cohort*, MadingleyInitialisation&, std::vector< std::vector<int> > );
+    void GetEatingPotentialMarine( GridCell&, Cohort*, MadingleyInitialisation& );
 
     /** \brief Create the matrix of prey abundances in each weight bin
     @param gcl The current grid cell
@@ -43,13 +43,13 @@ public:
     @param gcl The current grid cell
     @param actingCohort The acting cohort
     @param params The definitions for items in the model  */
-    void GetEatingPotentialTerrestrial( GridCell&, Cohort*, MadingleyInitialisation&, std::vector< std::vector<int> > );
+    void GetEatingPotentialTerrestrial( GridCell&, Cohort*, MadingleyInitialisation& );
 
     /** \brief Apply the changes from predation to prey cohorts, and update deltas for the predator cohort
     @param gridCell The current grid cell
     @param actingCohort The acting cohort
     @param currentTimestep The current model time step */
-    void Run( GridCell&, Cohort*, unsigned, MadingleyInitialisation&, std::vector< std::vector<int> > SortedCohortIndices );
+    void Run( GridCell&, Cohort*, unsigned, MadingleyInitialisation& );
 
     /** \brief Calculate the potential number of individuals in a prey cohort eaten by an acting predator cohort given the number of prey detections
     @param preyAbundance The number of individuals in the prey cohort

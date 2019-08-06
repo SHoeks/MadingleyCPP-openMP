@@ -19,7 +19,7 @@ public:
     @param actingCohort The acting cohort
     @param currentTimestep The current model time step
     @param params  The model parameters */
-    void Run( GridCell&, Cohort*, unsigned, MadingleyInitialisation&, std::vector< std::vector<int> > );
+    void Run( GridCell&, Cohort*, unsigned, MadingleyInitialisation& );
 
     /** \brief Initialises herbivory implementation each time step
     @param gcl The current grid cell
@@ -32,13 +32,13 @@ public:
     @param gcl The current grid cell
     @param actingCohort The acting cohort
     @param params The definitions for stuff in the model */
-    void GetEatingPotentialTerrestrial( GridCell&, Cohort*, MadingleyInitialisation&, std::vector< std::vector<int> > );
+    void GetEatingPotentialTerrestrial( GridCell&, Cohort*, MadingleyInitialisation& );
 
     /** \brief Calculate the potential biomass that could be gained through herbivory on each grid cell autotroph stock
     @param gcl The current grid cell
     @param actingCohort The acting cohort
     @params All your base are belong to us */
-    void GetEatingPotentialMarine( GridCell&, Cohort*, MadingleyInitialisation&, std::vector< std::vector<int> > );
+    void GetEatingPotentialMarine( GridCell&, Cohort*, MadingleyInitialisation& );
 
 private:
 

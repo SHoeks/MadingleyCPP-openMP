@@ -41,8 +41,7 @@ void EatingHerbivory::InitializeEatingPerTimeStep( GridCell& gcl, MadingleyIniti
     mFunctionalGroupIndicesToEat = params.mStockFunctionalGroupDefinitions.GetFunctionalGroupIndex( "Heterotroph/Autotroph", "Autotroph", false );
 }
 
-void EatingHerbivory::GetEatingPotentialTerrestrial( GridCell& gcl, Cohort* actingCohort, MadingleyInitialisation& params,
-  std::vector< std::vector<int> > SortedCohortIndices ) {
+void EatingHerbivory::GetEatingPotentialTerrestrial( GridCell& gcl, Cohort* actingCohort, MadingleyInitialisation& params ) {
     // Set the total biomass eaten by the acting cohort to zero
     mTotalBiomassEatenByCohort = 0.0;
 
@@ -80,8 +79,7 @@ void EatingHerbivory::GetEatingPotentialTerrestrial( GridCell& gcl, Cohort* acti
 
 }
 
-void EatingHerbivory::GetEatingPotentialMarine( GridCell& gcl, Cohort* actingCohort, MadingleyInitialisation& params,
-  std::vector< std::vector<int> > SortedCohortIndices ) {
+void EatingHerbivory::GetEatingPotentialMarine( GridCell& gcl, Cohort* actingCohort, MadingleyInitialisation& params ) {
     // Set the total biomass eaten by the acting cohort to zero
     mTotalBiomassEatenByCohort = 0.0;
 
@@ -117,7 +115,7 @@ void EatingHerbivory::GetEatingPotentialMarine( GridCell& gcl, Cohort* actingCoh
     }
 }
 
-void EatingHerbivory::Run( GridCell& gcl, Cohort* actingCohort, unsigned currentTimestep, MadingleyInitialisation& params, std::vector< std::vector<int> > SortedCohortIndices ) {
+void EatingHerbivory::Run( GridCell& gcl, Cohort* actingCohort, unsigned currentTimestep, MadingleyInitialisation& params ) {
     mEdibleScaling = 1.0;
     if( !gcl.IsMarine( ) ) mEdibleScaling = 0.1;
 

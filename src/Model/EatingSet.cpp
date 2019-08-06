@@ -21,7 +21,7 @@ void EatingSet::InitializeEcologicalProcess( GridCell& gcl, MadingleyInitialisat
 }
 
 void EatingSet::RunEcologicalProcess( GridCell& gcl, Cohort* actingCohort, unsigned currentTimestep, ThreadVariables& partial,
-  unsigned currentMonth, MadingleyInitialisation& params, std::vector< std::vector<int> > SortedCohortIndices ) {
+  unsigned currentMonth, MadingleyInitialisation& params ) {
 
     // Get the nutrition source (herbivory, carnivory or omnivory) of the acting cohort
     std::string nutritionSource = params.mCohortFunctionalGroupDefinitions.GetTraitNames( "Nutrition source", actingCohort->mFunctionalGroupIndex );
@@ -42,12 +42,12 @@ void EatingSet::RunEcologicalProcess( GridCell& gcl, Cohort* actingCohort, unsig
 
             // Calculate the potential biomass available from herbivory
             if( gcl.IsMarine( ) )
-                mImplementations[ "revised herbivory" ]->GetEatingPotentialMarine( gcl, actingCohort, params, SortedCohortIndices );
+                mImplementations[ "revised herbivory" ]->GetEatingPotentialMarine( gcl, actingCohort, params );
             else
-                mImplementations[ "revised herbivory" ]->GetEatingPotentialTerrestrial( gcl, actingCohort, params, SortedCohortIndices );
+                mImplementations[ "revised herbivory" ]->GetEatingPotentialTerrestrial( gcl, actingCohort, params );
 
             // Run herbivory to apply changes in autotroph biomass from herbivory and add biomass eaten to the delta arrays
-            mImplementations[ "revised herbivory" ]->Run( gcl, actingCohort, currentTimestep, params, SortedCohortIndices );
+            mImplementations[ "revised herbivory" ]->Run( gcl, actingCohort, currentTimestep, params );
 
             break;
 
@@ -59,12 +59,12 @@ void EatingSet::RunEcologicalProcess( GridCell& gcl, Cohort* actingCohort, unsig
 
             // Calculate the potential biomass available from predation
             if( gcl.IsMarine( ) )
-                mImplementations[ "revised predation" ]->GetEatingPotentialMarine( gcl, actingCohort, params, SortedCohortIndices);
+                mImplementations[ "revised predation" ]->GetEatingPotentialMarine( gcl, actingCohort, params );
             else
-                mImplementations[ "revised predation" ]->GetEatingPotentialTerrestrial( gcl, actingCohort, params, SortedCohortIndices );
+                mImplementations[ "revised predation" ]->GetEatingPotentialTerrestrial( gcl, actingCohort, params );
 
             // Run predation to apply changes in prey biomass from predation and add biomass eaten to the delta arrays
-            mImplementations[ "revised predation" ]->Run( gcl, actingCohort, currentTimestep, params, SortedCohortIndices );
+            mImplementations[ "revised predation" ]->Run( gcl, actingCohort, currentTimestep, params );
 
             break;
 
@@ -83,15 +83,15 @@ void EatingSet::RunEcologicalProcess( GridCell& gcl, Cohort* actingCohort, unsig
 
             // Calculate the potential biomass available from herbivory
             if( gcl.IsMarine( ) )
-                mImplementations[ "revised herbivory" ]->GetEatingPotentialMarine( gcl, actingCohort, params, SortedCohortIndices );
+                mImplementations[ "revised herbivory" ]->GetEatingPotentialMarine( gcl, actingCohort, params );
             else
-                mImplementations[ "revised herbivory" ]->GetEatingPotentialTerrestrial( gcl, actingCohort, params, SortedCohortIndices );
+                mImplementations[ "revised herbivory" ]->GetEatingPotentialTerrestrial( gcl, actingCohort, params );
 
             // Calculate the potential biomass available from predation
             if( gcl.IsMarine( ) )
-                mImplementations[ "revised predation" ]->GetEatingPotentialMarine( gcl, actingCohort, params, SortedCohortIndices );
+                mImplementations[ "revised predation" ]->GetEatingPotentialMarine( gcl, actingCohort, params );
             else
-                mImplementations[ "revised predation" ]->GetEatingPotentialTerrestrial( gcl, actingCohort, params, SortedCohortIndices );
+                mImplementations[ "revised predation" ]->GetEatingPotentialTerrestrial( gcl, actingCohort, params );
 
             // Calculate the total handling time for all expected kills from predation and expected plant matter eaten in herbivory
             mTotalTimeToEatForOmnivores = mImplementations[ "revised herbivory" ]->mTimeUnitsToHandlePotentialFoodItems + mImplementations[ "revised predation" ]->mTimeUnitsToHandlePotentialFoodItems;
@@ -101,10 +101,10 @@ void EatingSet::RunEcologicalProcess( GridCell& gcl, Cohort* actingCohort, unsig
             mImplementations[ "revised predation" ]->mTimeUnitsToHandlePotentialFoodItems = mTotalTimeToEatForOmnivores;
 
             // Run predation to update prey cohorts and delta biomasses for the acting cohort
-            mImplementations[ "revised predation" ]->Run( gcl, actingCohort, currentTimestep, params, SortedCohortIndices );
+            mImplementations[ "revised predation" ]->Run( gcl, actingCohort, currentTimestep, params );
 
             // Run herbivory to update autotroph biomass and delta biomasses for the acting cohort
-            mImplementations[ "revised herbivory" ]->Run( gcl, actingCohort, currentTimestep, params, SortedCohortIndices );
+            mImplementations[ "revised herbivory" ]->Run( gcl, actingCohort, currentTimestep, params );
 
             break;
 

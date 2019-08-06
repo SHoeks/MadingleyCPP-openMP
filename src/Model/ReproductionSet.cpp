@@ -18,7 +18,7 @@ void ReproductionSet::InitializeEcologicalProcess( GridCell& gcl, MadingleyIniti
 }
 
 void ReproductionSet::RunEcologicalProcess( GridCell& gcl, Cohort* actingCohort, unsigned currentTimestep, ThreadVariables& partial,
-  unsigned currentMonth, MadingleyInitialisation& params, std::vector< std::vector<int> > SortedCohortIndices ) {
+  unsigned currentMonth, MadingleyInitialisation& params ) {
     // Holds the reproductive strategy of a cohort
     bool _Iteroparous = ( params.mCohortFunctionalGroupDefinitions.GetTraitNames( "reproductive strategy", actingCohort->mFunctionalGroupIndex ) == "iteroparity" );
     // Assign mass to reproductive potential
