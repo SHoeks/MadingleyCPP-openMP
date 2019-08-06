@@ -328,6 +328,21 @@ void EatingCarnivory::Run( GridCell& gcl, Cohort* actingCohort, unsigned current
             // This is equivalent to the body mass of the prey cohort including reproductive potential mass, times the abundance eaten of the prey cohort,
             // divided by the abundance of the predator
             mTemporaryValue += ( mBodyMassPrey + gcl.mCohorts[FunctionalGroup][i]->mIndividualReproductivePotentialMass ) * mAbundancesEaten[FunctionalGroup][i] / mAbundancePredator;
+
+            /////////////////////
+            if(params.mCohortFunctionalGroupDefinitions.GetTraitNames( "Nutrition source" , gcl.mCohorts[FunctionalGroup][i]->mFunctionalGroupIndex ) == "herbivore" )
+            {
+                actingCohort->mConsumed_Herbivore += ( mBodyMassPrey + gcl.mCohorts[FunctionalGroup][i]->mIndividualReproductivePotentialMass ) * mAbundancesEaten[FunctionalGroup][i]; 
+            }
+            if(params.mCohortFunctionalGroupDefinitions.GetTraitNames( "Nutrition source" , gcl.mCohorts[FunctionalGroup][i]->mFunctionalGroupIndex ) == "omnivore" )
+            {
+                actingCohort->mConsumed_Omnivore  += ( mBodyMassPrey + gcl.mCohorts[FunctionalGroup][i]->mIndividualReproductivePotentialMass ) * mAbundancesEaten[FunctionalGroup][i]; 
+            }
+            if(params.mCohortFunctionalGroupDefinitions.GetTraitNames( "Nutrition source" , gcl.mCohorts[FunctionalGroup][i]->mFunctionalGroupIndex ) == "carnivore" )
+            {
+                actingCohort->mConsumed_Carnivore += ( mBodyMassPrey + gcl.mCohorts[FunctionalGroup][i]->mIndividualReproductivePotentialMass ) * mAbundancesEaten[FunctionalGroup][i]; 
+            }
+            ////////////////////
         }
     }
 
