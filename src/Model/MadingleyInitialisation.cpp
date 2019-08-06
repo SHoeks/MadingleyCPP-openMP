@@ -401,12 +401,12 @@ long MadingleyInitialisation::SeedCohortsApplySpinUpFast( Grid& modelGrid, std::
         double trophicindex = std::stod(CohortData[9][jj]);
 
         // CohortData[10] ==> individualReproductivePotentialMass
-        double individualReproductivePotentialMass = 0;
-        //double individualReproductivePotentialMass = std::stod(CohortData[10][jj]);
+        //double individualReproductivePotentialMass = 0;
+        double individualReproductivePotentialMass = std::stod(CohortData[10][jj]);
         
         // CohortData[11] ==> maturityTimeStep
-        unsigned maturityTimeStep = std::numeric_limits<unsigned>::max( );
-        //unsigned maturityTimeStep = std::stod(CohortData[11][jj]);
+        //unsigned maturityTimeStep = std::numeric_limits<unsigned>::max( );
+        unsigned maturityTimeStep = std::stod(CohortData[11][jj]);
 
         // std::cout << 
         // gridCellIndex << ", "<< 
