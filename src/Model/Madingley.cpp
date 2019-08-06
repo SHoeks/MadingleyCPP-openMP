@@ -213,15 +213,15 @@ void Madingley::Run( ) {
                                          TimeToWrite, StableBiomassYearly, StableBiomass ) == 0 ) {
             TimeToWrite = 0;
             // write pools
-            std::string csvNamepools = mOutputDirectory + std::to_string(timeStep) +"_Pools.csv";
-            ofstream CSVpools;
-            CSVpools.open (csvNamepools);
-            CSVpools << "GridcellIndex" << "," << "OrgPool" << "," << "C02Pool" << std::endl;
-            for( unsigned gridCellIndex = 0; gridCellIndex < Parameters::Get( )->GetNumberOfGridCells( ); gridCellIndex++ ) {
-                CSVpools << gridCellIndex << "," <<
-                Environment::Get( "Organic Pool", gridCellIndex ) << "," <<
-                Environment::Get( "Respiratory CO2 Pool", gridCellIndex ) << std::endl; }
-            CSVpools.close();
+            // std::string csvNamepools = mOutputDirectory + std::to_string(timeStep) +"_Pools.csv";
+            // ofstream CSVpools;
+            // CSVpools.open (csvNamepools);
+            // CSVpools << "GridcellIndex" << "," << "OrgPool" << "," << "C02Pool" << std::endl;
+            // for( unsigned gridCellIndex = 0; gridCellIndex < Parameters::Get( )->GetNumberOfGridCells( ); gridCellIndex++ ) {
+            //     CSVpools << gridCellIndex << "," <<
+            //     Environment::Get( "Organic Pool", gridCellIndex ) << "," <<
+            //     Environment::Get( "Respiratory CO2 Pool", gridCellIndex ) << std::endl; }
+            // CSVpools.close();
 
             OutputConsumptionCSV( timeStep );
             OutputConsumptionSummarizedCSV( timeStep );
