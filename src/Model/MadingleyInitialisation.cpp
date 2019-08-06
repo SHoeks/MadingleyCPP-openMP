@@ -297,7 +297,7 @@ long MadingleyInitialisation::SeedStocksApplySpinUp( GridCell& gcl, std::vector<
 std::vector< std::vector<std::string> > MadingleyInitialisation::readSpinUpStateCohort( std::string filedir ) {
 
     std::cout << filedir << std::endl;
-    std::vector< std::vector<std::string> > v(10,std::vector<std::string>(0));
+    std::vector< std::vector<std::string> > v(12,std::vector<std::string>(0));
     std::ifstream file ( filedir );
     unsigned col = 0;
     unsigned row = 0;
