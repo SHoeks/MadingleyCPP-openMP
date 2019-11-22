@@ -32,9 +32,9 @@ public:
 
 private:
     /** \brief  Run processes for cells*/
-    void RunWithinCells( unsigned cellCounter, std::vector<int> TerrestrialGridcellIndices );
+    void RunWithinCells( );
     /** \brief  Run in parallel processes for cells*/
-    void RunWithinCellsInParallel( unsigned cellCounter, std::vector<int> TerrestrialGridcellIndices );
+    void RunWithinCellsInParallel( );
     /** \brief   Run ecological processes for stocks in a specified grid cell
     @param gcl The current cell */
     void RunWithinCellStockEcology( GridCell& );
@@ -88,7 +88,6 @@ private:
     //#
     bool RunParallel;
     std::string mOutputDirectory;
-    std::vector< std::vector<int> > DetSortIndicesCohorts( GridCell&, bool );
     void OutputCSV( unsigned );
     void OutputGridCSV( unsigned );
     void OutputConsumptionCSV( unsigned );

@@ -190,11 +190,6 @@ void EatingCarnivory::GetEatingPotentialMarine( GridCell& gcl, Cohort* actingCoh
             }
         }
     }
-    // No cannibalism; do this outside the loop to speed up the calculations
-    //MB Now moved back into the loop
-    //  TimeUnitsToHandlePotentialFoodItems -= PotentialAbundanceEaten[actingCohort->FunctionalGroupIndex][actingCohort->positionInList] *
-    //          CalculateHandlingTimeMarine(BodyMassPredator);
-    //  PotentialAbundanceEaten[actingCohort->FunctionalGroupIndex][actingCohort->positionInList] = 0.0;
 }
 
 void EatingCarnivory::PopulateBinnedPreyAbundance( GridCell& gcl, Cohort* actingCohort, double logOptimalPreyBodySizeRatio ) {
@@ -261,6 +256,8 @@ void EatingCarnivory::GetEatingPotentialTerrestrial( GridCell& gcl, Cohort* acti
 
         // Loop over cohorts within the functional group
         for( int i = 0; i < mNumberCohortsPerFunctionalGroupNoNewCohorts[FunctionalGroup]; i++ ) {
+			
+			// Prevent cannibalism
             if( gcl.mCohorts[FunctionalGroup][i]->mID == actingCohort->mID ) {
                 mPotentialAbundanceEaten[FunctionalGroup][i] = 0.0;
                 mTimeUnitsToHandlePotentialFoodItems -= mPotentialAbundanceEaten[ FunctionalGroup ][ i ] * CalculateHandlingTimeTerrestrial( mBodyMassPredator );
@@ -285,11 +282,6 @@ void EatingCarnivory::GetEatingPotentialTerrestrial( GridCell& gcl, Cohort* acti
             }
         }
     }
-    // No cannibalism; do this outside the loop to speed up the calculations
-    //MB Now moved back into loop
-    //TimeUnitsToHandlePotentialFoodItems -= PotentialAbundanceEaten[actingCohort->FunctionalGroupIndex][actingCohort->positionInList] *
-    //        CalculateHandlingTimeTerrestrial(BodyMassPredator);
-    //PotentialAbundanceEaten[actingCohort->FunctionalGroupIndex][actingCohort->positionInList] = 0.0;
 }
 
 void EatingCarnivory::Run( GridCell& gcl, Cohort* actingCohort, unsigned currentTimestep, MadingleyInitialisation& params ) {

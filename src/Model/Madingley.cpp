@@ -20,6 +20,7 @@
 //extern std::string NumberOfThreads;
 
 Madingley::Madingley( ) {
+	
     // Set up list of global diagnostics
     SetUpGlobalDiagnosticsList( );
 
@@ -36,7 +37,7 @@ Madingley::Madingley( ) {
     std::cout << "Write Cohort Consumption: " << Parameters::Get()->GetWriteCohortConsumption( ) << std::endl;
     std::cout << "Write Consumption Summary: " << Parameters::Get()->GetWriteConsumptionSummary( ) << std::endl;
     
-    //# Data wrting during model run
+    //# Data writing during model run
     FileWriter fileWriter;
 
     //############## new output for csv files
@@ -103,20 +104,8 @@ void Madingley::Run( ) {
     mDispersals = 0;
     int SimulationInMonths_print = Parameters::Get( )->GetLengthOfSimulationInMonths( );
 
-    //############## new create vector with relevent grid indices (terrestrial only)
-    std::vector<int> TerrestrialGridcellIndices; 
-    unsigned cellCounter = 0;
-    mModelGrid.ApplyFunctionToAllCells( [&]( GridCell & gcl ) {
-        if ( !gcl.IsMarine( ) ) {
-            TerrestrialGridcellIndices.push_back( gcl.GetIndex( ) );
-            cellCounter++;
-        } 
-    } );
 
-    std::cout << "Running terrestrial only ( "<< cellCounter << " of the " << 
-        Parameters::Get( )->GetNumberOfGridCells( ) << " gridcells )"<< std::endl;
-    std::cout<< " " <<std::endl;
-    
+
     //# store biomass diagnostics
     std::vector< std::vector<double> > StableBiomass( SimulationInMonths_print ,std::vector<double>( 5 ));
     std::vector< std::vector<double> > StableBiomassYearly( (SimulationInMonths_print/12) ,std::vector<double>( 5 ));
@@ -155,9 +144,9 @@ void Madingley::Run( ) {
 
         // Run in gridcell ecology
         if( RunParallel == 1 ) {
-            RunWithinCellsInParallel( cellCounter, TerrestrialGridcellIndices );
+            RunWithinCellsInParallel(  );
         } else {
-            RunWithinCells( cellCounter, TerrestrialGridcellIndices );
+            RunWithinCells(  );
         }
 
         // Calculate cohort mTrophicIndex
@@ -211,18 +200,8 @@ void Madingley::Run( ) {
         // Write model state
         if ( writemodelstate.WriteState( mModelGrid, mOutputDirectory, mCurrentMonth, timeStep, 
                                          TimeToWrite, StableBiomassYearly, StableBiomass ) == 0 ) {
-            TimeToWrite = 0;
-            // write pools
-            // std::string csvNamepools = mOutputDirectory + std::to_string(timeStep) +"_Pools.csv";
-            // ofstream CSVpools;
-            // CSVpools.open (csvNamepools);
-            // CSVpools << "GridcellIndex" << "," << "OrgPool" << "," << "C02Pool" << std::endl;
-            // for( unsigned gridCellIndex = 0; gridCellIndex < Parameters::Get( )->GetNumberOfGridCells( ); gridCellIndex++ ) {
-            //     CSVpools << gridCellIndex << "," <<
-            //     Environment::Get( "Organic Pool", gridCellIndex ) << "," <<
-            //     Environment::Get( "Respiratory CO2 Pool", gridCellIndex ) << std::endl; }
-            // CSVpools.close();
-
+            
+			TimeToWrite = 0;
             OutputConsumptionCSV( timeStep );
             OutputConsumptionSummarizedCSV( timeStep );
 
@@ -242,20 +221,10 @@ void Madingley::Run( ) {
     writemodelstate.CohortSpinUpOutput( mModelGrid, mOutputDirectory, 99999 );
     writemodelstate.StockSpinUpOutput( mModelGrid, mOutputDirectory, 99999 );
 
-    // write pools
-    std::string csvNamepools = mOutputDirectory + std::to_string(99999) +"_Pools.csv";
-    ofstream CSVpools;
-    CSVpools.open (csvNamepools);
-    CSVpools << "GridcellIndex" << "," << "OrgPool" << "," << "C02Pool" << std::endl;
-    for( unsigned gridCellIndex = 0; gridCellIndex < Parameters::Get( )->GetNumberOfGridCells( ); gridCellIndex++ ) {
-        CSVpools << gridCellIndex << "," <<
-        Environment::Get( "Organic Pool", gridCellIndex ) << "," <<
-        Environment::Get( "Respiratory CO2 Pool", gridCellIndex ) << std::endl; }
-    CSVpools.close();
 
 }
 
-void Madingley::RunWithinCells( unsigned cellCounter, std::vector<int> TerrestrialGridcellIndices ) {
+void Madingley::RunWithinCells( ) {
     // Instantiate a class to hold thread locked global diagnostic variables
     ThreadVariables singleThreadDiagnostics( 0, 0, 0, mNextCohortID );
 
@@ -293,7 +262,7 @@ void Madingley::CalculateTrophicIndex( ) {
     } );
 }
 
-void Madingley::RunWithinCellsInParallel( unsigned cellCounter, std::vector<int> TerrestrialGridcellIndices ) {
+void Madingley::RunWithinCellsInParallel( ) {
     // Instantiate a class to hold thread locked global diagnostic variables
 
     #ifdef _OPENMP
@@ -344,7 +313,6 @@ void Madingley::RunWithinCellsInParallel( unsigned cellCounter, std::vector<int>
 
 void Madingley::RunWithinCellStockEcology( GridCell& gcl ) {
 
-    if ( !gcl.IsMarine( ) ) {
     // Create a local instance of the stock ecology class
     EcologyStock MadingleyEcologyStock;
     // Get the list of functional group indices for autotroph stocks
@@ -357,62 +325,59 @@ void Madingley::RunWithinCellStockEcology( GridCell& gcl ) {
             MadingleyEcologyStock.RunWithinCellEcology( gcl, ActingStock, mCurrentTimeStep, mCurrentMonth, mParams );
         }
     }
-    }
-
+ 
 }
 
 void Madingley::RunWithinCellCohortEcology( GridCell& gcl, ThreadVariables& partial ) {
     // Local instances of classes
     // Initialize ecology for stocks and cohorts - needed fresh every timestep?
-    if ( !gcl.IsMarine( ) ) {
 
-        EcologyCohort mEcologyCohort;
-        mEcologyCohort.InitialiseEating( gcl, mParams );
-        Activity CohortActivity;
+	EcologyCohort mEcologyCohort;
+	mEcologyCohort.InitialiseEating( gcl, mParams );
+	Activity CohortActivity;
 
-        // Loop over randomly ordered gridCellCohorts to implement biological functions
-        gcl.ApplyFunctionToAllCohortsWithStaticRandomness( [&]( Cohort* c ) {
-            // Perform all biological functions except dispersal (which is cross grid cell)
+	// Loop over randomly ordered gridCellCohorts to implement biological functions
+	gcl.ApplyFunctionToAllCohortsWithStaticRandomness( [&]( Cohort* c ) {
+		// Perform all biological functions except dispersal (which is cross grid cell)
 
-            if( gcl.mCohorts[c->mFunctionalGroupIndex].size( ) != 0 && c->mCohortAbundance > Parameters::Get( )->GetExtinctionThreshold( ) ) {
+		if( gcl.mCohorts[c->mFunctionalGroupIndex].size( ) != 0 && c->mCohortAbundance > Parameters::Get( )->GetExtinctionThreshold( ) ) {
 
-                CohortActivity.AssignProportionTimeActive( gcl, c, mCurrentTimeStep, mCurrentMonth, mParams );
+			CohortActivity.AssignProportionTimeActive( gcl, c, mCurrentTimeStep, mCurrentMonth, mParams );
 
-                // Run ecology
-                mEcologyCohort.RunWithinCellEcology( gcl, c, mCurrentTimeStep, partial, mCurrentMonth, mParams );
-                // Update the properties of the acting cohort
-                mEcologyCohort.UpdateEcology( gcl, c, mCurrentTimeStep );
-                Cohort::ResetMassFluxes( );
-                // Check that the mass of individuals in this cohort is still >= 0 after running ecology
-                assert( c->mIndividualBodyMass >= 0.0 && "Biomass < 0 for this cohort" );
-            }
+			// Run ecology
+			mEcologyCohort.RunWithinCellEcology( gcl, c, mCurrentTimeStep, partial, mCurrentMonth, mParams );
+			// Update the properties of the acting cohort
+			mEcologyCohort.UpdateEcology( gcl, c, mCurrentTimeStep );
+			Cohort::ResetMassFluxes( );
+			// Check that the mass of individuals in this cohort is still >= 0 after running ecology
+			assert( c->mIndividualBodyMass >= 0.0 && "Biomass < 0 for this cohort" );
+		}
 
-            // Check that the mass of individuals in this cohort is still >= 0 after running ecology
-            if( gcl.mCohorts[c->mFunctionalGroupIndex].size( ) > 0 ) assert( c->mIndividualBodyMass >= 0.0 && "Biomass < 0 for this cohort" );
+		// Check that the mass of individuals in this cohort is still >= 0 after running ecology
+		if( gcl.mCohorts[c->mFunctionalGroupIndex].size( ) > 0 ) assert( c->mIndividualBodyMass >= 0.0 && "Biomass < 0 for this cohort" );
 
-        }, mCurrentTimeStep );
-
+	}, mCurrentTimeStep );
 
 
-        for( auto c: GridCell::mNewCohorts ) {
-            gcl.InsertCohort( c );
-            if( c->mDestinationCell != &gcl ) std::cout << "whut? wrong cell?" << std::endl;
-        }
-        partial.mProductions += GridCell::mNewCohorts.size( );
-        GridCell::mNewCohorts.clear( );
 
-        RunExtinction( gcl, partial );
+	for( auto c: GridCell::mNewCohorts ) {
+		gcl.InsertCohort( c );
+		if( c->mDestinationCell != &gcl ) std::cout << "whut? wrong cell?" << std::endl;
+	}
+	partial.mProductions += GridCell::mNewCohorts.size( );
+	GridCell::mNewCohorts.clear( );
 
-        // Merge cohorts, if necessary
-        if( gcl.GetNumberOfCohorts( ) > Parameters::Get( )->GetMaximumNumberOfCohorts( ) ) {
-            mCohortMerger.ResetRandom( );
-            partial.mCombinations += mCohortMerger.MergeToReachThresholdFast( gcl, mParams );
+	RunExtinction( gcl, partial );
 
-            //Run extinction a second time to remove those cohorts that have been set to zero abundance when merging
-            RunExtinction( gcl, partial );
-        }
+	// Merge cohorts, if necessary
+	if( gcl.GetNumberOfCohorts( ) > Parameters::Get( )->GetMaximumNumberOfCohorts( ) ) {
+		mCohortMerger.ResetRandom( );
+		partial.mCombinations += mCohortMerger.MergeToReachThresholdFast( gcl, mParams );
 
-    }
+		//Run extinction a second time to remove those cohorts that have been set to zero abundance when merging
+		RunExtinction( gcl, partial );
+	}
+
 }
 
 void Madingley::RunExtinction( GridCell& gcl, ThreadVariables& partial ) {
@@ -479,49 +444,8 @@ void Madingley::SetUpGlobalDiagnosticsList( ) {
     mGlobalDiagnosticVariables["NumberOfCohortForcedToExtinction"] = 0.0; //#
 }
 
-//##
-std::vector< std::vector<int> > Madingley::DetSortIndicesCohorts( GridCell& gcl, bool print ) {
 
-    // Vectors of mIndividualBodyMass, stored per function group
-    // ("columns" are functional group index, "rows" are filled with the corrosponding mIndividualBodyMass)
-    std::vector< std::vector<double> > x(20,std::vector<double>(0));
-    gcl.ApplyFunctionToAllCohorts( [&]( Cohort* c ) {
-        x[c->mFunctionalGroupIndex].push_back(c->mIndividualBodyMass);
-    } );
-
-    // Empty vector for storing sorted indices
-    std::vector< std::vector<int> > y2(20,std::vector<int>(0));
-
-    // Determine and store sorted indeces per functional group
-    for( int ii = 0; ii < 20; ii++ ) {
-      if( x[ii].size()>0 ){
-        std::vector<double> x2 = x[ii];
-
-        std::vector<int> y(x2.size());
-
-        std::size_t n(0);
-        std::generate(std::begin(y), std::end(y), [&]{ return n++; });
-        std::sort( std::begin(y), std::end(y), [&](int i1, int i2) { return x2[i1] < x2[i2]; } );
-
-        for( unsigned yy = 0; yy < y.size(); yy++) y2[ii].push_back(y[yy]);
-        y.clear();
-      }
-    }
-
-    x.clear();
-
-    // Print y2 to console
-    if (print == true){
-      for ( unsigned yy = 0; yy < y2.size(); yy++ ) {
-        for ( unsigned tt = 0; tt < y2[yy].size(); tt++ ) std::cout << y2[yy][tt] << ' ';
-        std::cout << "|||" <<std::endl;
-      }
-    }
-    return y2;
-}
-//##
-
-//##
+//## Write all cohort properties to csv
 void Madingley::OutputCSV( unsigned step ) {
     std::string csvName = mOutputDirectory + std::to_string(step) + "_month.csv";
     ofstream CSV;
@@ -547,7 +471,7 @@ void Madingley::OutputCSV( unsigned step ) {
 }
 //##
 
-//##
+//## Write consupmtion to csv
 void Madingley::OutputConsumptionCSV( unsigned step ) {
     std::string csvName = mOutputDirectory + std::to_string(step) + "_consumption.csv";
     ofstream CSV;
@@ -569,7 +493,7 @@ void Madingley::OutputConsumptionCSV( unsigned step ) {
 }
 //##
 
-//##
+//## Write summerized consupmtion to csv
 void Madingley::OutputConsumptionSummarizedCSV( unsigned step ) {
     int N_gridcell = Parameters::Get( )->GetNumberOfGridCells( );
     std::string csvName = mOutputDirectory + std::to_string(step) + "_consumptionSUM.csv";

@@ -57,14 +57,11 @@ MadingleyInitialisation::MadingleyInitialisation( long long& nextCohortID, doubl
     modelGrid.ApplyFunctionToAllCells( [&]( GridCell & c ) {
 
         // Insert cohorts and stocks
-        if(UseMadingleySpinUp==1) {
-            if( !c.IsMarine( ) ){    
-                // Initialise model using spin-up data
-                //totalCohorts += SeedCohortsApplySpinUp( c, CohortData );
+        if(UseMadingleySpinUp==1) {      
+				// Initialise stocks using spin-up data
                 totalStocks += SeedStocksApplySpinUp( c, StockData );
-            }
         } else {
-                // Create cohorts and stocks using user input
+                // Create cohorts and stocks using user input (cohort and stock defs)
                 totalCohorts += SeedGridCellCohorts( c );  
                 totalStocks += SeedGridCellStocks( c );
                 
@@ -74,10 +71,9 @@ MadingleyInitialisation::MadingleyInitialisation( long long& nextCohortID, doubl
         GridCellCounter++;
 
     } );
+	
+	//# use spin-ups csv for seeding of cohorts 
     if(UseMadingleySpinUp==1) totalCohorts = SeedCohortsApplySpinUpFast( modelGrid, CohortData );
-
-
-
     CohortData.clear();
     StockData.clear();
 
@@ -161,12 +157,10 @@ long MadingleyInitialisation::SeedGridCellCohorts( GridCell& gcl ) {
                         mCohortFunctionalGroupDefinitions.GetTraitNames( "Nutrition source", functionalGroup ) == "omnivore" ||
                         mCohortFunctionalGroupDefinitions.GetTraitNames( "Realm", functionalGroup ) == "marine"
                         ) {
-                        optimalPreyBodySizeRatio = std::max( 0.01, mRandomNumber.GetNormal( 0.1, 0.02 ) );
+                        optimalPreyBodySizeRatio = std::max( 0.01, mRandomNumber.GetNormal( 0.1, 0.02 ) ); // use regular opt pred-prey value
                     } else {
-                        optimalPreyBodySizeRatio = std::max( 0.01, mRandomNumber.GetNormal( 0.8, 0.02 ) );
+                        optimalPreyBodySizeRatio = std::max( 0.01, mRandomNumber.GetNormal( 1.0, 0.02 ) ); // use updated opt pred-prey value
                     }
-                    //# end new code
-                    //std::cout << optimalPreyBodySizeRatio << std::endl;
 
                     if( !gcl.IsMarine( ) ) {
                         do {
@@ -193,7 +187,7 @@ long MadingleyInitialisation::SeedGridCellCohorts( GridCell& gcl ) {
 
                     NewAbund = NewBiomass / cohortJuvenileMass;
 
-                    //#### trophicindex
+                    //#### ini trophic index
                     double trophicindex = 0.0;
                     if( mCohortFunctionalGroupDefinitions.GetTraitNames( "Nutrition source", functionalGroup ) == "herbivore" ) {
                         trophicindex = 2.0;
@@ -440,17 +434,19 @@ long MadingleyInitialisation::SeedCohortsApplySpinUpFast( Grid& modelGrid, std::
     for( unsigned jj = 0; jj < nrows; jj++ ) {
         v.push_back(std::stoul(CohortData[0][jj]));
     }
+
+    //# Insert cohort in empty cell (will die immediately), not possible to have empty grid cells?
     modelGrid.ApplyFunctionToAllCells( [&]( GridCell & gridCell ) {      
-        if(!gridCell.IsMarine()){
-            double x = gridCell.GetIndex();
-            if(std::find(v.begin(), v.end(), x) == v.end()) {
-                //std::cout << "empty cell "<< x << std::endl;
-                modelGrid.GetACell( x ).SetCohortSize( mCohortFunctionalGroupDefinitions.mAllFunctinoalGroupsIndex.size( ) );
-                Cohort* NewCohort=new Cohort( modelGrid.GetACell( x ), 10, 1, 1, 1, 1,1, 0, 0, mNextCohortID, 2, 0, std::numeric_limits<unsigned>::max( ) );
-                modelGrid.GetACell( x ).mCohorts[10].push_back( NewCohort );
-                totalCohorts++;
-            }
+
+        double x = gridCell.GetIndex();
+        if(std::find(v.begin(), v.end(), x) == v.end()) {
+            //std::cout << "empty cell "<< x << std::endl;
+            modelGrid.GetACell( x ).SetCohortSize( mCohortFunctionalGroupDefinitions.mAllFunctinoalGroupsIndex.size( ) );
+            Cohort* NewCohort=new Cohort( modelGrid.GetACell( x ), 10, 1, 1, 1, 1,1, 0, 0, mNextCohortID, 2, 0, std::numeric_limits<unsigned>::max( ) );
+            modelGrid.GetACell( x ).mCohorts[10].push_back( NewCohort );
+            totalCohorts++;
         }
+
     } );
     return totalCohorts;
 }

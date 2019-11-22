@@ -68,9 +68,9 @@ Cohort::Cohort( Cohort* actingCohort, double juvenileBodyMass, double adultBodyM
     mCurrentLocation = actingCohort->mCurrentLocation;
     mDestinationLocation = mCurrentLocation;
     mIndividualReproductivePotentialMass = 0;
-    mID = mNextID; //MB added to track this object.
+    mID = mNextID;
     mNextID++;
-    nextCohortID++; // FIX - Is this increment required?
+    nextCohortID++;
 
     // track cohort consumption
     //##############
