@@ -178,7 +178,7 @@ std::vector< double > ReproductionBasic::GetOffspringCohortProperties( Cohort* a
         // Assign masses to the offspring cohort that are equal to those of the parent cohort
         cohortJuvenileAdultMasses[ 0 ] = actingCohort->mJuvenileMass;
         //cohortJuvenileAdultMasses[ 1 ] = actingCohort->mAdultMass;
-        cohortJuvenileAdultMasses[ 1 ] = actingCohort->mAdultMass + 5;
+        cohortJuvenileAdultMasses[ 1 ] = actingCohort->mAdultMass;
 
     }
 
